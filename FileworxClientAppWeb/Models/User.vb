@@ -7,6 +7,9 @@
     Public Property FilePath() As String
     Public Property Activity() As Boolean
 
+    Public Sub New()
+
+    End Sub
 
     Public Sub New(fullName As String, loginName As String, password As String, lastModifier As String, Optional filePath As String = "", Optional activity As Boolean = True)
 

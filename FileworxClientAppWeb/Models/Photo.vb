@@ -7,7 +7,7 @@ Public Class Photo
 
 
     Public Sub New()
-        MyBase.New()
+        MyBase.New(ApplicationSettings.photosDirectory)
     End Sub
 
 

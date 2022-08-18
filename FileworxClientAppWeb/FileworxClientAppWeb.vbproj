@@ -147,10 +147,12 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationFunctions\UserFunctions.vb" />
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="Controllers\PostController.vb" />
+    <Compile Include="Controllers\UserController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -221,6 +223,7 @@
     <Content Include="Views\Post\ViewPost.vbhtml" />
     <Content Include="Views\Post\AddOrEditNews.vbhtml" />
     <Content Include="Views\Post\AddOrEditPhoto.vbhtml" />
+    <Content Include="Views\User\SignIn.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -4,6 +4,7 @@
     Public Const newsDirectory = "News"
     Public Const photosDirectory = "Photos"
     Public Const imagesDirectory = "Images"
+    Public Const lambda = "~"
 
     Public Const separator = "%@$#$**%$"
 

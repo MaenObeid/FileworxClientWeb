@@ -3,9 +3,86 @@
 Public Class ApplicationFunctions
 
 
+    Public Shared Sub LoadPosts()
+
+        If ApplicationSettings.postsMenu.Count <> 0 Then
+
+            Return
+
+        End If
+
+        Dim files() As String = {}
+
+        Try
+
+            If Directory.Exists(HttpContext.Current.Server.MapPath(ApplicationSettings.newsDirectory)) Then
+
+                files = Directory.GetFiles(HttpContext.Current.Server.MapPath(ApplicationSettings.newsDirectory))
+
+            End If
+
+            For Each file As String In files
+
+                Using fileStreamReader As New FileStream(file, FileMode.Open, FileAccess.Read)
+
+                    Using streamReader As New StreamReader(fileStreamReader)
+
+                        Dim record As String() = streamReader.ReadLine().Split({ApplicationSettings.separator}, System.StringSplitOptions.RemoveEmptyEntries)
+
+                        ApplicationSettings.postsMenu.Add(New News(record, file))
+
+                    End Using
+
+                End Using
+
+            Next
+
+            files = {}
+
+            If Directory.Exists(HttpContext.Current.Server.MapPath(ApplicationSettings.photosDirectory)) Then
+
+                files = Directory.GetFiles(HttpContext.Current.Server.MapPath(ApplicationSettings.photosDirectory))
+
+            End If
+
+            For Each file As String In files
+
+                Using fileStreamReader As New FileStream(file, FileMode.Open, FileAccess.Read)
+
+                    Using StreamReader As New StreamReader(fileStreamReader)
+
+                        Dim record As String() = StreamReader.ReadLine().Split({ApplicationSettings.separator}, System.StringSplitOptions.RemoveEmptyEntries)
+
+                        ApplicationSettings.postsMenu.Add(New Photo(record, file))
+
+                    End Using
+
+                End Using
+
+            Next
+
+
+        Catch ex As Exception
+
+            Throw ex
+
+        End Try
+
+    End Sub
+
+
+
+
     Public Shared Sub SavePost(post As Post)
 
         If (post.GetType = GetType(News)) Then
+
+            If ApplicationSettings.postsMenu.Contains(post) Then
+
+
+                Dim i = post.FilePath
+
+            End If
 
             If Not Directory.Exists(Path.Combine(HttpContext.Current.Server.MapPath("~"), ApplicationSettings.newsDirectory)) Then
 
@@ -101,5 +178,27 @@ Public Class ApplicationFunctions
         'End Try
 
     End Sub
+
+    Public Shared Sub DeletePost(postIndex As Integer)
+
+        Dim post As Post = ApplicationSettings.postsMenu(postIndex)
+
+        If File.Exists(post.FilePath) Then
+
+            File.Delete(post.FilePath)
+
+            If post.GetType = GetType(Photo) Then
+
+                File.Delete(HttpContext.Current.Server.MapPath(CType(post, Photo).Image))
+
+            End If
+        End If
+
+        ApplicationSettings.postsMenu.RemoveAt(postIndex)
+
+    End Sub
+
+
+
 
 End Class

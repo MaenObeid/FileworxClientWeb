@@ -42,12 +42,24 @@ Namespace Controllers
 
         Function AddOrEditNews(postIndex As String) As ActionResult
 
+            If postIndex Is Nothing Then
+
+                Return View()
+
+            End If
+
             Return View(ApplicationSettings.postsMenu(postIndex))
         End Function
 
 
 
         Function AddOrEditPhoto(postIndex As String) As ActionResult
+
+            If postIndex Is Nothing Then
+
+                Return View()
+
+            End If
 
             Return View(ApplicationSettings.postsMenu(postIndex))
         End Function
@@ -66,6 +78,15 @@ Namespace Controllers
 
             Return RedirectToAction("Index", "Home")
         End Function
+
+        Function DeletePost(postIndex As String) As ActionResult
+
+            ApplicationFunctions.DeletePost(postIndex)
+
+            Return RedirectToAction("Index", "Home")
+
+        End Function
+
 
     End Class
 End Namespace

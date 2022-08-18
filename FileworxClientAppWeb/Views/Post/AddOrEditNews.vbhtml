@@ -2,7 +2,14 @@
 
 @Code
 
-    ViewData("Title") = "AddOrEditPost"
+    Dim news As News = Model
+
+    If Model Is Nothing Then
+        news = New News()
+    End If
+
+
+    'ViewData("Title") = "AddOrEditPost"
 
     'Dim result = ""
     '
@@ -58,85 +65,60 @@ End Code
 
 
 <h2>EditPost</h2>
+
 <head>
-    <script>
-
-       
-        /*Imagee.onchange = evt => {
-            const [file] = Imagee.files
-            if (file) {
-                blah.src = file
-                blah.alt = file
-            }
-        }*/
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-
-                alert(input.files[0].name);
-
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result)
-                        .width(150)
-                        .height(200);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>
+    
 </head>
-
 
 <body>
     <div class="container">
+
+
 
         @Using (Html.BeginForm("SaveNews", "Post", FormMethod.Post, New With {.enctype = "multipart/form-data"}))
 
             @<table Class="table table-info table-striped">
                 <tr>
                     <td>Title</td>
-                    <td><input id="Title" name="Title" type="text" value="@Model.Title" /></td>
+                    <td><input id="Title" name="Title" type="text" value="@news.Title" required /></td>
 
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><input id="Description" name="Description" type="text" value="@Model.Description" /></td>
+                    <td><input id="Description" name="Description" type="text" value="@news.Description" required /></td>
                 </tr>
 
-                    <tr>
-                        <td>
-                            Category
-                        </td>
+                <tr>
+                    <td>
+                        Category
+                    </td>
 
-                        <td>
-                            <select id="Category" name="Category">
-                                <option value=0> General</option>
-                                <option value=1> Sports</option>
-                                <option value=2> Health</option>
-                                <option value=3> Politics</option>
-                            </select>
-                        </td>
-                    </tr>
+                    <td>
+                        <select id="Category" name="Category">
+                            <option id="0" value="0"> General</option>
+                            <option id="1" value="1"> Sports</option>
+                            <option id="2" value="2"> Health</option>
+                            <option id="3" value="3"> Politics</option>
+                        </select>
+                    </td>
+                </tr>
 
                 <tr>
                     <td>Body</td>
                     <td>
 
-                        <textarea id="Body" name="Body">@Model.Body</textarea>
+                        <textarea id="Body" name="Body" required>@news.Body</textarea>
 
                     </td>
                 </tr>
 
-             <tr hidden>
-                 <td><input id="FilePath" name="FilePath" type="text" value="@Model.FilePath" /></td>
-                 <td><input id="CreationDate" name="CreationDate" type="text" value="@Model.CreationDate" /></td>
-             </tr>
+                <tr hidden>
+                    <td><input id="FilePath" name="FilePath" type="text" value="@news.FilePath" /></td>
+                    <td><input id="CreationDate" name="CreationDate" type="text" value="@news.CreationDate" /></td>
+                </tr>
 
                 <tr>
-                    <td><input type="submit" value="Save" class="btn btn-primary  col-sm-6"/></td>
+                    <td><input type="submit" value="Save" class="btn btn-primary  col-sm-6" /></td>
                     <td></td>
                 </tr>
 
@@ -148,3 +130,13 @@ End Code
 
     </div>
 </body>
+
+<script>
+
+    var CategorySettings = @Html.Raw(Json.Encode(news.Category));
+
+    document.getElementById(CategorySettings).setAttribute('selected', 'selected');
+
+</script>
+
+

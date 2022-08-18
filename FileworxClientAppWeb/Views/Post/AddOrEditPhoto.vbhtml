@@ -5,6 +5,12 @@
     ViewData("Title") = "AddOrEditPhoto"
 
 
+    Dim photo As Photo = Model
+
+    If Model Is Nothing Then
+        photo = New Photo()
+    End If
+
 End Code
 
 
@@ -51,19 +57,19 @@ End Code
             @<table Class="table table-info table-striped">
                 <tr>
                     <td>Title</td>
-                    <td><input id="Title" name="Title" type="text" value="@Model.Title" /></td>
+                    <td><input id="Title" name="Title" type="text" value="@photo.Title" required /></td>
 
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><input id="Description" name="Description" type="text" value="@Model.Description" /></td>
+                    <td><input id="Description" name="Description" type="text" value="@photo.Description" required /></td>
                 </tr>
 
                 <tr>
                     <td>Body</td>
                     <td>
 
-                        <textarea id="Body" name="Body">@Model.Body</textarea>
+                        <textarea id="Body" name="Body" required >@photo.Body</textarea>
 
                     </td>
                 </tr>
@@ -73,7 +79,7 @@ End Code
                         <td>Image</td>
                         <td>
 
-                            <img id="blah" name="ImageViewer" src="@Model.Image" width="300" height="250" />
+                            <img id="blah" name="ImageViewer" src="@photo.Image" width="300" height="250" />
                             <br />
                             <input type="file" accept="image/*" name="fileName" onchange="readURL(this);" />
 
@@ -82,8 +88,8 @@ End Code
 
                     <tr hidden>
                         
-                        <td><input id="FilePath" name="FilePath" type="text" value="@Model.FilePath" /></td>
-                        <td><input id="CreationDate" name="CreationDate" type="text" value="@Model.CreationDate" /></td>
+                        <td><input id="FilePath" name="FilePath" type="text" value="@photo.FilePath" /></td>
+                        <td><input id="CreationDate" name="CreationDate" type="text" value="@photo.CreationDate" /></td>
                     </tr>
 
                 <tr>

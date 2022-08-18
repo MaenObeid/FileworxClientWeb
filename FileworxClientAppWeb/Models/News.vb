@@ -6,7 +6,7 @@ Public Class News
     Public Property Category() As Category
 
     Public Sub New()
-        MyBase.New()
+        MyBase.New(ApplicationSettings.newsDirectory)
     End Sub
 
     Public Sub New(title As String, description As String, category As Category, body As String, Optional filePath As String = "")

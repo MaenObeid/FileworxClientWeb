@@ -1,5 +1,7 @@
 ﻿'Abstract class
 
+Imports System.IO
+
 Public MustInherit Class Post
     Public Property Title() As String
     Public Property Description() As String
@@ -8,7 +10,10 @@ Public MustInherit Class Post
     Public Property FilePath() As String
 
 
-    Public Sub New()
+    Public Sub New(directory As String)
+
+        Me.FilePath = Path.Combine(directory, Guid.NewGuid().ToString() & ".txt")
+        CreationDate = DateTime.Now
 
     End Sub
 
