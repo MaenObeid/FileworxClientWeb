@@ -150,9 +150,12 @@
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="Controllers\PostController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApplicationFunctions.vb" />
+    <Compile Include="Models\ApplicationSettings.vb" />
     <Compile Include="Models\Category.vb" />
     <Compile Include="Models\News.vb" />
     <Compile Include="Models\Photo.vb" />
@@ -215,6 +218,9 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Views\Shared\_NavBar.vbhtml" />
+    <Content Include="Views\Post\ViewPost.vbhtml" />
+    <Content Include="Views\Post\AddOrEditNews.vbhtml" />
+    <Content Include="Views\Post\AddOrEditPhoto.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

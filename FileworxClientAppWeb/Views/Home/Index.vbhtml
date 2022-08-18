@@ -1,4 +1,6 @@
-﻿@Code
+﻿@ModelType List(Of Post)
+
+@Code
     ViewData("Title") = "Home Page"
 End Code
 
@@ -32,6 +34,8 @@ End Code
 
 <br />
 <br />
+<p>@ViewData("Message")</p>
+<br />
 <br />
 
 @code
@@ -48,14 +52,16 @@ End Code
 <div class="container">
 
     @grid.GetHtml(columns:=grid.Columns(
-                                                grid.Column("Title"),
-                                                grid.Column("CreationDate"),
-                                                grid.Column("Description"),
-                                    grid.Column(header:="Delete", format:= @@<div class="container-fluid"><div class="row"  style="justify-content: space-around; display: flex">
-    <a href="/Home/Delete/@item.ToString" Class="btn btn-info col-lg-3">View</a>
-    <a href="/Home/Delete/@item.ToString" Class="btn btn-warning col-lg-3">Edit</a>
-    <a href="/Home/Index/@item.ToString" Class="btn btn-danger col-lg-4">Delete</a>
-</div> </div>)
-                ), tableStyle:="table table-bordered")
+                                                                        grid.Column("Title"),
+                                                                        grid.Column("CreationDate"),
+                                                                        grid.Column("Description"),
+                                                            grid.Column(format:=@@<div class="container-fluid">
+                                                                    <div class="row" style="justify-content: space-around; display: flex">
+                                                                        <a href="/Post/ViewPost?postIndex=@ApplicationSettings.postsMenu.IndexOf(item.Value)" Class="btn btn-info col-lg-3">View</a>
+                                                                        <a href="/Post/AddOrEditPost?postIndex=@ApplicationSettings.postsMenu.IndexOf(item.Value)" Class="btn btn-warning col-lg-3">Edit</a>
+                                                                        <a href="/Home/Delete" Class="btn btn-danger col-lg-4">Delete</a>
+                                                                    </div>
+                                                                </div>                              )
+                                              ), tableStyle:="table table-bordered")
 
 </div>

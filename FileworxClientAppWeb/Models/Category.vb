@@ -1,4 +1,5 @@
-﻿Public Enum Category
+﻿'Category Enumeration
+Public Enum Category
     General
     Sports
     Health
