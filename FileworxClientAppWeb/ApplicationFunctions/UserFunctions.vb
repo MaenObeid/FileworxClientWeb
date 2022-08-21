@@ -38,7 +38,7 @@ Public Class UserFunctions
 
     End Sub
 
-    Public Shared Function CheckUser(user As User) As Boolean
+    Public Shared Function SignIn(user As User) As Boolean
 
         Dim UserExists As Boolean = False
 
@@ -46,12 +46,12 @@ Public Class UserFunctions
 
             For Each registeredUser As User In ApplicationSettings.usersList
 
-                With user
+                With registeredUser
 
-                    If .LoginName = registeredUser.LoginName AndAlso .Password = registeredUser.Password AndAlso .Activity Then
+                    If .LoginName = user.LoginName AndAlso .Password = user.Password AndAlso .Activity Then
 
                         UserExists = True
-                        ApplicationSettings.currentUserName = registeredUser.FullName
+                        ApplicationSettings.currentUserName = .FullName
                         Exit For
 
                     End If
@@ -67,5 +67,62 @@ Public Class UserFunctions
         Return UserExists
 
     End Function
+
+
+    Public Shared Sub AddUser(user As User)
+
+        Try
+
+            Dim fileStreamWriter = New FileStream(user.FilePath, FileMode.OpenOrCreate, FileAccess.Write)
+
+            Using streamWriter As New StreamWriter(fileStreamWriter)
+
+                streamWriter.WriteLine(user.toFileReprisintation())
+
+            End Using
+
+            For Each row As User In ApplicationSettings.usersList
+
+                'removes the object if it exists (to replace it with new object)
+                If row.FilePath = user.FilePath Then
+                    ApplicationSettings.usersList.Remove(row)
+                    Exit For
+                End If
+
+            Next
+
+            ApplicationSettings.usersList.Add(user)
+
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+    End Sub
+
+
+    Public Shared Sub ChangeActivity(userIndex As Integer)
+
+        Try
+
+            Dim user As User = ApplicationSettings.usersList(userIndex)
+
+            user.LastModifier = ApplicationSettings.currentUserName
+            user.Activity = Not user.Activity
+
+            Using fileStreamWriter As New FileStream(User.FilePath, FileMode.Open, FileAccess.Write)
+
+                Using streamWriter As New StreamWriter(fileStreamWriter)
+
+                    streamWriter.WriteLine(User.toFileReprisintation())
+
+                End Using
+
+            End Using
+
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+    End Sub
 
 End Class

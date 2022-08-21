@@ -11,12 +11,13 @@ Namespace Controllers
 
         Function ViewPost(postIndex As String) As ActionResult
 
-            If postIndex <> String.Empty Then
-                ViewData("Post") = ApplicationSettings.postsMenu(postIndex)
+            If String.IsNullOrWhiteSpace(postIndex) Then
+
+                Return RedirectToAction("Index", "Home")
 
             End If
 
-            Return View()
+            Return View(ApplicationSettings.postsMenu(postIndex))
 
         End Function
 
@@ -67,21 +68,21 @@ Namespace Controllers
 
         Function SaveNews(post As News) As ActionResult
 
-            ApplicationFunctions.SavePost(post)
+            PostFunctions.SavePost(post)
 
             Return RedirectToAction("Index", "Home")
         End Function
 
         Function SavePhoto(post As Photo) As ActionResult
 
-            ApplicationFunctions.SavePost(post)
+            PostFunctions.SavePost(post)
 
             Return RedirectToAction("Index", "Home")
         End Function
 
         Function DeletePost(postIndex As String) As ActionResult
 
-            ApplicationFunctions.DeletePost(postIndex)
+            PostFunctions.DeletePost(postIndex)
 
             Return RedirectToAction("Index", "Home")
 

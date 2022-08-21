@@ -4,8 +4,13 @@
 
     Dim news As News = Model
 
+    ViewData("Title") = "Edit News"
+
     If Model Is Nothing Then
         news = New News()
+
+        ViewData("Title") = "Add News"
+
     End If
 
 
@@ -64,10 +69,10 @@ End Code
 
 
 
-<h2>EditPost</h2>
+<h2>@ViewData("Title")</h2>
 
 <head>
-    
+
 </head>
 
 <body>

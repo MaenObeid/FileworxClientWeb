@@ -1,6 +1,6 @@
 ﻿Imports System.IO
 
-Public Class ApplicationFunctions
+Public Class PostFunctions
 
 
     Public Shared Sub LoadPosts()
@@ -14,10 +14,11 @@ Public Class ApplicationFunctions
         Dim files() As String = {}
 
         Try
+            Dim newsDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.newsDirectory)
 
-            If Directory.Exists(HttpContext.Current.Server.MapPath(ApplicationSettings.newsDirectory)) Then
+            If Directory.Exists(newsDirectory) Then
 
-                files = Directory.GetFiles(HttpContext.Current.Server.MapPath(ApplicationSettings.newsDirectory))
+                files = Directory.GetFiles(newsDirectory)
 
             End If
 
@@ -39,9 +40,11 @@ Public Class ApplicationFunctions
 
             files = {}
 
-            If Directory.Exists(HttpContext.Current.Server.MapPath(ApplicationSettings.photosDirectory)) Then
+            Dim photosDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.photosDirectory)
 
-                files = Directory.GetFiles(HttpContext.Current.Server.MapPath(ApplicationSettings.photosDirectory))
+            If Directory.Exists(photosDirectory) Then
+
+                files = Directory.GetFiles(photosDirectory)
 
             End If
 
@@ -84,9 +87,12 @@ Public Class ApplicationFunctions
 
             End If
 
-            If Not Directory.Exists(Path.Combine(HttpContext.Current.Server.MapPath("~"), ApplicationSettings.newsDirectory)) Then
+            Dim newsDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.newsDirectory)
 
-                Directory.CreateDirectory(Path.Combine(HttpContext.Current.Server.MapPath("~"), ApplicationSettings.newsDirectory))
+
+            If Not Directory.Exists(newsDirectory) Then
+
+                Directory.CreateDirectory(newsDirectory)
 
             End If
 
@@ -122,9 +128,12 @@ Public Class ApplicationFunctions
 
         ElseIf (post.GetType = GetType(Photo)) Then
 
-            If Not Directory.Exists(Path.Combine(HttpContext.Current.Server.MapPath("~"), ApplicationSettings.photosDirectory)) Then
+            Dim photosDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.photosDirectory)
 
-                Directory.CreateDirectory(Path.Combine(HttpContext.Current.Server.MapPath("~"), ApplicationSettings.photosDirectory))
+
+            If Not Directory.Exists(photosDirectory) Then
+
+                Directory.CreateDirectory(photosDirectory)
 
             End If
 
@@ -135,7 +144,9 @@ Public Class ApplicationFunctions
                 If (image IsNot Nothing AndAlso image.ContentLength > 0) Then
 
                     Dim imageName = Path.GetFileName(image.FileName)
-                    Dim imagePath = Path.Combine(HttpContext.Current.Server.MapPath("~"), ApplicationSettings.imagesDirectory, imageName)
+                    Dim imagesDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.imagesDirectory)
+
+                    Dim imagePath = Path.Combine(imagesDirectory, imageName)
 
                     image.SaveAs(imagePath)
 
@@ -147,7 +158,7 @@ Public Class ApplicationFunctions
 
         End If
 
-        Dim filePath As String = Path.Combine(HttpContext.Current.Server.MapPath("~"), post.FilePath)
+        Dim filePath As String = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), post.FilePath)
 
         IO.File.WriteAllText(filePath, post.toFileReprisintation())
 
@@ -197,8 +208,6 @@ Public Class ApplicationFunctions
         ApplicationSettings.postsMenu.RemoveAt(postIndex)
 
     End Sub
-
-
 
 
 End Class

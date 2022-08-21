@@ -2,20 +2,21 @@
 
 @Code
 
-    ViewData("Title") = "AddOrEditPhoto"
+    ViewData("Title") = "Edit Photo"
 
 
     Dim photo As Photo = Model
 
     If Model Is Nothing Then
         photo = New Photo()
+        ViewData("Title") = "Add Photo"
     End If
 
 End Code
 
 
 
-<h2>EditPost</h2>
+<h2>@ViewData("Title")</h2>
 <head>
     <script>
 
@@ -87,7 +88,8 @@ End Code
                     </tr>
 
                     <tr hidden>
-                        
+
+                        <td><input id="Image" name="Image" type="text" value="@photo.Image" /></td>
                         <td><input id="FilePath" name="FilePath" type="text" value="@photo.FilePath" /></td>
                         <td><input id="CreationDate" name="CreationDate" type="text" value="@photo.CreationDate" /></td>
                     </tr>

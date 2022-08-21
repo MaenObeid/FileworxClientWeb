@@ -147,6 +147,7 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationFunctions\PostFunctions.vb" />
     <Compile Include="ApplicationFunctions\UserFunctions.vb" />
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\FilterConfig.vb" />
@@ -156,7 +157,6 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ApplicationFunctions.vb" />
     <Compile Include="Models\ApplicationSettings.vb" />
     <Compile Include="Models\Category.vb" />
     <Compile Include="Models\News.vb" />
@@ -224,6 +224,8 @@
     <Content Include="Views\Post\AddOrEditNews.vbhtml" />
     <Content Include="Views\Post\AddOrEditPhoto.vbhtml" />
     <Content Include="Views\User\SignIn.vbhtml" />
+    <Content Include="Views\User\Users.vbhtml" />
+    <Content Include="Views\User\AddUser.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -245,8 +247,6 @@
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Views\_ViewStart.vbhtml" />
-    <Content Include="Views\Home\About.vbhtml" />
-    <Content Include="Views\Home\Contact.vbhtml" />
     <Content Include="Views\Home\Index.vbhtml" />
     <Content Include="Views\Shared\Error.vbhtml" />
     <Content Include="Views\Shared\_Layout.vbhtml" />

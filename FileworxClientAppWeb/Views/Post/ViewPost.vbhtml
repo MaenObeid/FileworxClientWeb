@@ -1,10 +1,9 @@
-﻿
+﻿@ModelType Post
 @Code
-    ViewData("Title") = "ViewPost"
+    ViewData("Title") = Model.Title
 
-    Dim post As Post = ViewData("Post")
+    Dim postType = Model.GetType()
 
-    Dim postType = post.GetType()
 End Code
 
 <script>
@@ -17,7 +16,7 @@ End Code
 
 <body>
 
-    <h2>@postType.ToString</h2>
+    <h2>@ViewData("Title")</h2>
 
 
     <div Class="container">
@@ -28,7 +27,7 @@ End Code
                 </th>
 
                 <td>
-                    @post.Title
+                    @Model.Title
                 </td>
             </tr>
 
@@ -38,7 +37,7 @@ End Code
                 </th>
 
                 <td>
-                    @post.CreationDate
+                    @Model.CreationDate
                 </td>
             </tr>
 
@@ -49,7 +48,7 @@ End Code
                     </th>
 
                     <td>
-                        @CType(post, News).Category.ToString
+                        @CType(Model, News).Category.ToString
                     </td>
                 </tr>
             End If
@@ -60,21 +59,22 @@ End Code
                 </th>
 
                 <td>
-                    @post.Body
+                    @Model.Body
                 </td>
             </tr>
 
             @If postType = GetType(Photo) Then
 
-                Dim img As String = CType(post, Photo).Image
+                Dim img As String = CType(Model, Photo).Image
+
                 @<tr>
                     <th scope="row">
                         Image
                     </th>
 
                     <td>
-                        
-                        <img src="@Url.Content(img)"/>
+
+                        <img src="@Url.Content(img)" />
                     </td>
                 </tr>
             End If

@@ -1,4 +1,6 @@
-﻿Public Class User
+﻿Imports System.IO
+
+Public Class User
 
     Public Property FullName() As String
     Public Property LoginName() As String
@@ -8,6 +10,10 @@
     Public Property Activity() As Boolean
 
     Public Sub New()
+
+        LastModifier = ApplicationSettings.currentUserName
+        FilePath = Path.Combine(HttpContext.Current.Server.MapPath("~"), ApplicationSettings.usersDirectory, Guid.NewGuid().ToString() & ".txt")
+        Activity = True
 
     End Sub
 
@@ -26,7 +32,7 @@
 
                 If String.IsNullOrWhiteSpace(filePath) Then
 
-                    .FilePath = ApplicationSettings.usersDirectory & "\" & Guid.NewGuid().ToString() & ".txt"
+                    .FilePath = Path.Combine(ApplicationSettings.usersDirectory, Guid.NewGuid().ToString() & ".txt")
 
                 Else
 

@@ -1,10 +1,12 @@
 ﻿@ModelType List(Of Post)
 
 @Code
-    ViewData("Title") = "Home Page"
+    ViewData("Title") = "Welcome " & ApplicationSettings.currentUserName
 End Code
 
 
+
+<h2>@ViewData("Title")</h2>
 <br />
 <br />
 <p>@ViewData("Message")</p>

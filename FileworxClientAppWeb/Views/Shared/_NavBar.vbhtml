@@ -6,17 +6,35 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.ActionLink("Application name", "Index", "Home", New With {.area = ""}, New With {.class = "navbar-brand"})
+            <span class="navbar-brand">FileworxClient</span>
         </div>
-        <div class="navbar-collapse collapse">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("About", "About", "Home")</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                <li>@Html.ActionLink("Add News", "AddOrEditNews", "Post")</li>
-                <li>@Html.ActionLink("Add Photo", "AddOrEditPhoto", "Post")</li>
-                <li>@Html.ActionLink("SignIn", "SignIn", "User")</li>
+                @If String.IsNullOrWhiteSpace(ApplicationSettings.currentUserName) Then
+
+                    @<li>@Html.ActionLink("SignIn", "SignIn", "User")</li>
+
+                Else
+
+                    @<li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @<li>@Html.ActionLink("Users", "Users", "User")</li>
+
+                    @<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Add<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+
+                            <li>@Html.ActionLink("Add Photo", "AddOrEditPhoto", "Post")</li>
+                            <li>@Html.ActionLink("Add News", "AddOrEditNews", "Post")</li>
+                            <li>@Html.ActionLink("Add User", "AddUser", "User")</li>
+
+                        </ul>
+                    </li>
+
+                    @<li>@Html.ActionLink("Sign Out", "SignOut", "User")</li>
+
+                End If
+
             </ul>
-        </div>
     </div>
+</div>
 </div>
