@@ -14,9 +14,6 @@
 
 End Code
 
-
-
-<h2>@ViewData("Title")</h2>
 <head>
     <script>
 
@@ -38,19 +35,36 @@ End Code
 
                 reader.readAsDataURL(input.files[0]);
 
-                //document.getElementById("Image").value = input.files[0].name;
-                //alert(document.getElementById("Image").value);
-                //<td><input id="Image" name="Image" type="text" value="#" /></td>
             }
 
         };
-
 
     </script>
 </head>
 
 
+
+
 <body>
+
+    <h2>@ViewData("Title")</h2>
+
+
+    @If TempData("Message") IsNot Nothing Then
+
+        @<br />
+        @<br />
+
+        @<div Class="alert alert-warning" role="alert">
+            @TempData("Message")
+        </div>
+
+    End If
+
+
+    <br />
+    <br />
+
     <div class="container">
 
         @Using (Html.BeginForm("SavePhoto", "Post", FormMethod.Post, New With {.enctype = "multipart/form-data", .post = Model}))
@@ -58,41 +72,41 @@ End Code
             @<table Class="table table-info table-striped">
                 <tr>
                     <td>Title</td>
-                    <td><input id="Title" name="Title" type="text" value="@photo.Title" required /></td>
+                    <td><input id="Title" name="Title" type="text" value="@photo.Title" maxlength="254" required /></td>
 
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><input id="Description" name="Description" type="text" value="@photo.Description" required /></td>
+                    <td><input id="Description" name="Description" type="text" value="@photo.Description" maxlength="254" required /></td>
                 </tr>
 
                 <tr>
                     <td>Body</td>
                     <td>
 
-                        <textarea id="Body" name="Body" required >@photo.Body</textarea>
+                        <textarea id="Body" name="Body" maxlength="9999" required>@photo.Body</textarea>
 
                     </td>
                 </tr>
 
 
-                    <tr>
-                        <td>Image</td>
-                        <td>
+                <tr>
+                    <td>Image</td>
+                    <td>
 
-                            <img id="blah" name="ImageViewer" src="@photo.Image" width="300" height="250" />
-                            <br />
-                            <input type="file" accept="image/*" name="fileName" onchange="readURL(this);" />
+                        <img id="blah" name="ImageViewer" src="@photo.Image" width="300" height="250" />
+                        <br />
+                        <input type="file" accept="image/*" name="fileName" onchange="readURL(this);" />
 
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
 
-                    <tr hidden>
+                <tr hidden>
 
-                        <td><input id="Image" name="Image" type="text" value="@photo.Image" /></td>
-                        <td><input id="FilePath" name="FilePath" type="text" value="@photo.FilePath" /></td>
-                        <td><input id="CreationDate" name="CreationDate" type="text" value="@photo.CreationDate" /></td>
-                    </tr>
+                    <td><input id="Image" name="Image" type="text" value="@photo.Image" /></td>
+                    <td><input id="FilePath" name="FilePath" type="text" value="@photo.FilePath" /></td>
+                    <td><input id="CreationDate" name="CreationDate" type="text" value="@photo.CreationDate" /></td>
+                </tr>
 
                 <tr>
                     <td><input type="submit" value="Save" class="btn btn-primary  col-sm-6" /></td>
@@ -102,8 +116,6 @@ End Code
             </table>
 
         End Using
-
-
 
     </div>
 </body>

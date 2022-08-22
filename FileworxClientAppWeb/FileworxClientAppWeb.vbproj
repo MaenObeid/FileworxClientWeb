@@ -225,7 +225,7 @@
     <Content Include="Views\Post\AddOrEditPhoto.vbhtml" />
     <Content Include="Views\User\SignIn.vbhtml" />
     <Content Include="Views\User\Users.vbhtml" />
-    <Content Include="Views\User\AddUser.vbhtml" />
+    <Content Include="Views\User\AddOrEditUser.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

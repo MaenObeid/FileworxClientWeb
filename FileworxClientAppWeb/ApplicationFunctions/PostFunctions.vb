@@ -14,6 +14,7 @@ Public Class PostFunctions
         Dim files() As String = {}
 
         Try
+
             Dim newsDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.newsDirectory)
 
             If Directory.Exists(newsDirectory) Then
@@ -64,6 +65,98 @@ Public Class PostFunctions
 
             Next
 
+        Catch ex As Exception
+
+            Throw ex
+
+        End Try
+
+    End Sub
+
+
+    Public Shared Sub SavePost(post As Post)
+        Try
+
+            If (post.GetType = GetType(News)) Then
+
+                If ApplicationSettings.postsMenu.Contains(post) Then
+
+
+                    Dim i = post.FilePath
+
+                End If
+
+                Dim newsDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.newsDirectory)
+
+
+                If Not Directory.Exists(newsDirectory) Then
+
+                    Directory.CreateDirectory(newsDirectory)
+
+                End If
+
+            ElseIf (post.GetType = GetType(Photo)) Then
+
+                Dim photosDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.photosDirectory)
+                Dim imagesDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.imagesDirectory)
+
+
+                If Not Directory.Exists(photosDirectory) Then
+
+                    Directory.CreateDirectory(photosDirectory)
+
+                End If
+
+                If Not Directory.Exists(imagesDirectory) Then
+
+                    Directory.CreateDirectory(imagesDirectory)
+
+                End If
+
+                If (HttpContext.Current.Request.Files.Count > 0) Then
+
+                    Dim image = HttpContext.Current.Request.Files(0)
+
+                    If (image IsNot Nothing AndAlso image.ContentLength > 0) Then
+
+                        Dim imageName = Path.GetFileName(image.FileName)
+
+                        Dim imagePath = Path.Combine(imagesDirectory, imageName)
+
+                        image.SaveAs(imagePath)
+
+                        CType(post, Photo).Image = Path.Combine(Path.DirectorySeparatorChar, ApplicationSettings.imagesDirectory, imageName)
+
+                    End If
+
+                End If
+
+            End If
+
+            Dim filePath As String = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), post.FilePath)
+
+            File.WriteAllText(filePath, post.toFileReprisintation())
+
+            For Each row As Post In ApplicationSettings.postsMenu
+
+                'removes the object if it exists (to replace it with new object)
+                If row.FilePath = post.FilePath Then
+
+                    If row.GetType = GetType(Photo) Then
+
+                        Dim imagePath As String = HttpContext.Current.Server.MapPath(CType(row, Photo).Image)
+                        File.Delete(imagePath)
+
+                    End If
+
+                    ApplicationSettings.postsMenu.Remove(row)
+                    Exit For
+
+                End If
+
+            Next
+
+            ApplicationSettings.postsMenu.Add(post)
 
         Catch ex As Exception
 
@@ -74,138 +167,31 @@ Public Class PostFunctions
     End Sub
 
 
-
-
-    Public Shared Sub SavePost(post As Post)
-
-        If (post.GetType = GetType(News)) Then
-
-            If ApplicationSettings.postsMenu.Contains(post) Then
-
-
-                Dim i = post.FilePath
-
-            End If
-
-            Dim newsDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.newsDirectory)
-
-
-            If Not Directory.Exists(newsDirectory) Then
-
-                Directory.CreateDirectory(newsDirectory)
-
-            End If
-
-            'Dim fileStreamWriter = New FileStream(Path.Combine(Server.MapPath("~/News/"), "4e21037c-1141-4f8a-9574-a63cc3a5aeda.txt"), FileMode.OpenOrCreate, FileAccess.Write)
-            '
-            'Using streamWriter As New StreamWriter(fileStreamWriter)
-            '
-            '    streamWriter.WriteLine(post.toFileReprisintation())
-            '
-            '    If Not ApplicationSettings.postsMenu.Contains(post) Then
-            '
-            '        ApplicationSettings.postsMenu.Add(post)
-            '
-            '    End If
-            '
-            'End Using
-
-            'Dim filePath As String = Path.Combine(Server.MapPath("~"), post.FilePath)
-            '
-            'IO.File.WriteAllText(filePath, post.toFileReprisintation())
-            '
-            'For Each row As Post In ApplicationSettings.postsMenu
-            '
-            '    'removes the object if it exists (to replace it with new object)
-            '    If row.FilePath = post.FilePath Then
-            '        ApplicationSettings.postsMenu.Remove(row)
-            '        Exit For
-            '    End If
-            '
-            'Next
-            '
-            'ApplicationSettings.postsMenu.Add(post)
-
-        ElseIf (post.GetType = GetType(Photo)) Then
-
-            Dim photosDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.photosDirectory)
-
-
-            If Not Directory.Exists(photosDirectory) Then
-
-                Directory.CreateDirectory(photosDirectory)
-
-            End If
-
-            If (HttpContext.Current.Request.Files.Count > 0) Then
-
-                Dim image = HttpContext.Current.Request.Files(0)
-
-                If (image IsNot Nothing AndAlso image.ContentLength > 0) Then
-
-                    Dim imageName = Path.GetFileName(image.FileName)
-                    Dim imagesDirectory = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), ApplicationSettings.imagesDirectory)
-
-                    Dim imagePath = Path.Combine(imagesDirectory, imageName)
-
-                    image.SaveAs(imagePath)
-
-                    CType(post, Photo).Image = Path.Combine(Path.DirectorySeparatorChar, ApplicationSettings.imagesDirectory, imageName)
-
-                End If
-
-            End If
-
-        End If
-
-        Dim filePath As String = Path.Combine(HttpContext.Current.Server.MapPath(ApplicationSettings.lambda), post.FilePath)
-
-        IO.File.WriteAllText(filePath, post.toFileReprisintation())
-
-        For Each row As Post In ApplicationSettings.postsMenu
-
-            'removes the object if it exists (to replace it with new object)
-            If row.FilePath = post.FilePath Then
-                ApplicationSettings.postsMenu.Remove(row)
-                Exit For
-            End If
-
-        Next
-
-        ApplicationSettings.postsMenu.Add(post)
-
-
-        'Try
-        '    If File.ContentLength > 0 Then
-        '        Dim _FileName As String = Path.GetFileName(File.FileName)
-        '        Dim _path = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName)
-        '        File.SaveAs(_path)
-        '    End If
-        '    ViewBag.Message = "File Uploaded Successfully!!"
-        '    Return View()
-        'Catch
-        '    ViewBag.Message = "File upload failed!!"
-        '    Return View()
-        'End Try
-
-    End Sub
-
     Public Shared Sub DeletePost(postIndex As Integer)
 
-        Dim post As Post = ApplicationSettings.postsMenu(postIndex)
+        Try
 
-        If File.Exists(post.FilePath) Then
+            Dim post As Post = ApplicationSettings.postsMenu(postIndex)
 
-            File.Delete(post.FilePath)
+            If File.Exists(post.FilePath) Then
 
-            If post.GetType = GetType(Photo) Then
+                File.Delete(post.FilePath)
 
-                File.Delete(HttpContext.Current.Server.MapPath(CType(post, Photo).Image))
+                If post.GetType = GetType(Photo) Then
 
+                    Dim imagePath As String = HttpContext.Current.Server.MapPath(CType(post, Photo).Image)
+                    File.Delete(imagePath)
+
+                End If
             End If
-        End If
 
-        ApplicationSettings.postsMenu.RemoveAt(postIndex)
+            ApplicationSettings.postsMenu.RemoveAt(postIndex)
+
+        Catch ex As Exception
+
+            Throw ex
+
+        End Try
 
     End Sub
 

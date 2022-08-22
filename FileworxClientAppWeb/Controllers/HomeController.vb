@@ -17,22 +17,4 @@ Public Class HomeController
 
     End Function
 
-    Function About() As ActionResult
-        ViewData("Message") = "Your application description page."
-        Return View()
-    End Function
-
-    Function Contact(s As String) As ActionResult
-        ViewData("Message") = "Your contact page."
-
-        Return View()
-    End Function
-
-    Function Delete(i As String) As ActionResult
-        'ViewData("Message") = "Your contact page."
-
-
-        Return RedirectToAction("ViewPost", "Post", "0")
-    End Function
-
 End Class

@@ -4,10 +4,12 @@ Namespace Controllers
     Public Class UserController
         Inherits Controller
 
-        ' GET: User
-        Function Index() As ActionResult
-            Return View()
+
+        Function Users() As ActionResult
+
+            Return View(ApplicationSettings.usersList)
         End Function
+
 
         <HttpGet>
         Function SignIn() As ActionResult
@@ -22,6 +24,7 @@ Namespace Controllers
 
             Return View()
         End Function
+
 
         <HttpPost>
         Function SignIn(user As User) As ActionResult
@@ -43,13 +46,10 @@ Namespace Controllers
             Return RedirectToAction("SignIn")
         End Function
 
-        Function Users() As ActionResult
-
-            Return View(ApplicationSettings.usersList)
-        End Function
 
         <HttpGet>
-        Function AddUser(userIndex As String) As ActionResult
+        Function AddOrEditUser(userIndex As String) As ActionResult
+
             If userIndex Is Nothing Then
 
                 Return View()
@@ -59,8 +59,9 @@ Namespace Controllers
             Return View(ApplicationSettings.usersList(userIndex))
         End Function
 
+
         <HttpPost>
-        Function AddUser(user As User) As ActionResult
+        Function AddOrEditUser(user As User) As ActionResult
 
             Try
 
@@ -71,20 +72,12 @@ Namespace Controllers
                 Return RedirectToAction("Index", "Home")
 
             Catch ex As Exception
-
-                TempData("Message") = ex.Message.ToString()
-
+                ViewData("Message") = ex.Message.ToString()
             End Try
 
             Return View()
         End Function
 
-
-        'Function EditUser(userIndex As String)
-        '
-        '
-        '
-        'End Function
 
         Function ChangeActivity(userIndex As String) As ActionResult
 

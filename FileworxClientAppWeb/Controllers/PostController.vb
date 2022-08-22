@@ -4,10 +4,6 @@ Namespace Controllers
     Public Class PostController
         Inherits Controller
 
-        ' GET: Post
-        Function Index() As ActionResult
-            Return View()
-        End Function
 
         Function ViewPost(postIndex As String) As ActionResult
 
@@ -32,9 +28,6 @@ Namespace Controllers
                 Return RedirectToAction("AddOrEditPhoto", New With {.postIndex = postIndex})
 
             End If
-
-            'ViewData("Type") = GetType(News)
-
 
             Return RedirectToAction("Index", "Home")
         End Function
@@ -67,22 +60,45 @@ Namespace Controllers
 
 
         Function SaveNews(post As News) As ActionResult
+            Try
 
-            PostFunctions.SavePost(post)
+                PostFunctions.SavePost(post)
+
+                TempData("Message") = "News saved successfully"
+
+            Catch ex As Exception
+                TempData("Message") = ex.Message.ToString()
+            End Try
 
             Return RedirectToAction("Index", "Home")
         End Function
 
         Function SavePhoto(post As Photo) As ActionResult
 
-            PostFunctions.SavePost(post)
+            Try
+
+                PostFunctions.SavePost(post)
+
+                TempData("Message") = "Photo saved successfully"
+
+            Catch ex As Exception
+                TempData("Message") = ex.Message.ToString()
+            End Try
 
             Return RedirectToAction("Index", "Home")
         End Function
 
         Function DeletePost(postIndex As String) As ActionResult
 
-            PostFunctions.DeletePost(postIndex)
+            Try
+
+                PostFunctions.DeletePost(postIndex)
+
+                TempData("Message") = "Post deleted successfully"
+
+            Catch ex As Exception
+                TempData("Message") = ex.Message.ToString()
+            End Try
 
             Return RedirectToAction("Index", "Home")
 

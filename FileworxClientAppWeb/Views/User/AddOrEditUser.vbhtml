@@ -15,6 +15,15 @@ End Code
 <body>
 
     <h2>@ViewData("Title")</h2>
+    <br />
+
+    @If ViewData("Message") IsNot Nothing Then
+
+        @<div Class="alert alert-warning" role="alert">
+            @ViewData("Message")
+        </div>
+
+    End If
 
     @If TempData("Message") IsNot Nothing Then
 
@@ -34,7 +43,7 @@ End Code
 
     <div class="container">
 
-        @Using (Html.BeginForm("AddUser", "User", FormMethod.Post, New With {.enctype = "multipart/form-data"}))
+        @Using (Html.BeginForm("AddOrEditUser", "User", FormMethod.Post, New With {.enctype = "multipart/form-data"}))
 
             @<table Class="table table-info table-striped">
                 <tr>
@@ -61,7 +70,7 @@ End Code
                 <tr hidden>
 
                     <td><input id="LastModifier" name="LastModifier" type="text" value="@ApplicationSettings.currentUserName" /></td>
-                    <td>@Html.CheckBoxFor(Function(m) user.Activity)</td>
+                    <td>@Html.CheckBox("Activity", user.Activity)</td>
                     <td><input id="FilePath" name="FilePath" type="text" value="@user.FilePath" /></td>
 
                 </tr>

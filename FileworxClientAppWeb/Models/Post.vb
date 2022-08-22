@@ -12,7 +12,9 @@ Public MustInherit Class Post
 
     Public Sub New(directory As String)
 
-        Me.FilePath = Path.Combine(directory, Guid.NewGuid().ToString() & ".txt")
+        Dim appPath As String = HttpContext.Current.Server.MapPath(ApplicationSettings.lambda)
+
+        Me.FilePath = Path.Combine(appPath, directory, Guid.NewGuid().ToString() & ".txt")
         CreationDate = DateTime.Now
 
     End Sub

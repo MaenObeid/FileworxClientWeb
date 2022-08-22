@@ -18,6 +18,17 @@ End Code
 
     <h2>@ViewData("Title")</h2>
 
+    <br />
+
+    @If TempData("Message") IsNot Nothing Then
+
+        @<br />
+
+        @<div Class="alert alert-warning" role="alert">
+            @TempData("Message")
+        </div>
+
+    End If
 
     <div Class="container">
         <Table Class="table table-info table-striped">
@@ -74,12 +85,11 @@ End Code
 
                     <td>
 
-                        <img src="@Url.Content(img)" />
+                        <img src="@Url.Content(img)" width="300" height="250" />
                     </td>
                 </tr>
             End If
         </Table>
     </div>
-
 
 </body>

@@ -4,51 +4,65 @@
     ViewData("Title") = "Users"
 End Code
 
-<h2>@ViewData("Title")</h2>
+<body>
 
-<div class="container">
+    <h2>@ViewData("Title")</h2>
 
-    <table id="assets-data-table" class="table table-striped table-bordered">
-        <thead>
-            <tr>
+    @If TempData("Message") IsNot Nothing Then
 
-                <th>Name</th>
-                <th>Login Name</th>
-                <th>Last Modifier</th>
-                <th>Activity</th>
+        @<br />
+        @<br />
 
-            </tr>
-        </thead>
-        <tbody>
-            @For Each user As User In Model
+        @<div Class="alert alert-warning" role="alert">
+            @TempData("Message")
+        </div>
 
-                @<tr>
+    End If
 
-                    <td>@user.FullName</td>
-                    <td>@user.LoginName</td>
-                    <td>@user.LastModifier</td>
-                    <td>
-                        <div class="row" style="justify-content: space-around; display: flex">
-                            @If user.Activity Then
+    <div class="container">
 
-                                @<a href="/User/ChangeActivity?userIndex=@Model.IndexOf(user)" Class="btn btn-danger col-sm-5">Disable</a>
+        <table id="assets-data-table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
 
-                            Else
-
-                                @<a href="/User/ChangeActivity?userIndex=@Model.IndexOf(user)" Class="btn btn-success col-sm-5">Enable</a>
-
-                            End If
-
-                            <a href="/User/AddUser?userIndex=@Model.IndexOf(user)" Class="btn btn-warning col-sm-5">Edit</a>
-                        </div>
-                    </td>
-
+                    <th>Name</th>
+                    <th>Login Name</th>
+                    <th>Last Modifier</th>
+                    <th>Activity</th>
 
                 </tr>
+            </thead>
+            <tbody>
+                @For Each user As User In Model
 
-            Next
+                    @<tr>
 
-        </tbody>
-    </table>
+                        <td>@user.FullName</td>
+                        <td>@user.LoginName</td>
+                        <td>@user.LastModifier</td>
+                        <td>
+                            <div class="row" style="justify-content: space-around; display: flex">
+                                @If user.Activity Then
 
-</div>
+                                    @<a href="/User/ChangeActivity?userIndex=@Model.IndexOf(user)" Class="btn btn-danger col-sm-5">Disable</a>
+
+                                Else
+
+                                    @<a href="/User/ChangeActivity?userIndex=@Model.IndexOf(user)" Class="btn btn-success col-sm-5">Enable</a>
+
+                                End If
+
+                                <a href="/User/AddOrEditUser?userIndex=@Model.IndexOf(user)" Class="btn btn-warning col-sm-5">Edit</a>
+                            </div>
+                        </td>
+
+
+                    </tr>
+
+                Next
+
+            </tbody>
+        </table>
+
+    </div>
+</body>

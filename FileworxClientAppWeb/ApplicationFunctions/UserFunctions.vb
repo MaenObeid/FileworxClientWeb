@@ -38,6 +38,7 @@ Public Class UserFunctions
 
     End Sub
 
+
     Public Shared Function SignIn(user As User) As Boolean
 
         Dim UserExists As Boolean = False
@@ -70,6 +71,16 @@ Public Class UserFunctions
 
 
     Public Shared Sub AddUser(user As User)
+
+        For Each account As User In ApplicationSettings.usersList
+
+            If account.LoginName = user.LoginName Then
+
+                Throw New Exception("Exception -> Login Name already exists")
+
+            End If
+
+        Next
 
         Try
 

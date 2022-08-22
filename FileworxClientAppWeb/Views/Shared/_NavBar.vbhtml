@@ -25,7 +25,7 @@
 
                             <li>@Html.ActionLink("Add Photo", "AddOrEditPhoto", "Post")</li>
                             <li>@Html.ActionLink("Add News", "AddOrEditNews", "Post")</li>
-                            <li>@Html.ActionLink("Add User", "AddUser", "User")</li>
+                            <li>@Html.ActionLink("Add User", "AddOrEditUser", "User")</li>
 
                         </ul>
                     </li>

@@ -13,84 +13,43 @@
 
     End If
 
-
-    'ViewData("Title") = "AddOrEditPost"
-
-    'Dim result = ""
-    '
-    'If IsPost Then
-    '    Dim firstName = Request("FirstName")
-    '    Dim lastName = Request("LastName")
-    '    Dim email = Request("Email")
-    '    Dim userData = firstName & "," + lastName & "," + email + Environment.NewLine
-    '    Dim dataFile = Server.MapPath("~/App_Data/data.txt")
-    '    File.WriteAllText(dataFile, userData)
-    '    result = "Information saved."
-    'End If
-
-
-    'If IsPost Then
-    '
-    '    If (Request.Files.Count > 0) Then
-    '
-    '        Dim file = Request.Files(0)
-    '        If (file Is Nothing AndAlso file.ContentLength > 0) Then
-    '
-    '            Dim fileName = Path.GetFileName(file.FileName)
-    '            Dim th = Path.Combine(Server.MapPath("~/Content/"), fileName)
-    '
-    '            file.SaveAs(th)
-    '
-    '        End If
-    '    End If
-    'End If
-    'Dim post As Post
-    'Dim postType As Type
-    '
-    'If Integer.Parse(ViewData("Post")) >= 0 Then
-    '
-    '    post = ApplicationSettings.postsMenu(ViewData("Post"))
-    '    postType = post.GetType()
-    '
-    'Else
-    '
-    '    If ViewData("Type") = GetType(News) Then
-    '
-    '        post = New News("", "", 0, "")
-    '
-    '    ElseIf ViewData("Type") = GetType(Photo) Then
-    '
-    '        post = New Photo("", "", "", "")
-    '
-    '    End If
-    'End If
-
 End Code
 
 
 
-<h2>@ViewData("Title")</h2>
-
-<head>
-
-</head>
 
 <body>
+
+    <h2>@ViewData("Title")</h2>
+
+    @If TempData("Message") IsNot Nothing Then
+
+        @<br />
+        @<br />
+
+        @<div Class="alert alert-warning" role="alert">
+            @TempData("Message")
+        </div>
+
+    End If
+
+
+    <br />
+    <br />
+
     <div class="container">
-
-
 
         @Using (Html.BeginForm("SaveNews", "Post", FormMethod.Post, New With {.enctype = "multipart/form-data"}))
 
             @<table Class="table table-info table-striped">
                 <tr>
                     <td>Title</td>
-                    <td><input id="Title" name="Title" type="text" value="@news.Title" required /></td>
+                    <td><input id="Title" name="Title" type="text" value="@news.Title" maxlength="254" required /></td>
 
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><input id="Description" name="Description" type="text" value="@news.Description" required /></td>
+                    <td><input id="Description" name="Description" type="text" value="@news.Description" maxlength="254" required /></td>
                 </tr>
 
                 <tr>
@@ -112,7 +71,7 @@ End Code
                     <td>Body</td>
                     <td>
 
-                        <textarea id="Body" name="Body" required>@news.Body</textarea>
+                        <textarea id="Body" name="Body" maxlength="9999" required>@news.Body</textarea>
 
                     </td>
                 </tr>
