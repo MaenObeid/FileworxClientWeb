@@ -85,7 +85,7 @@ End Code
 
                     <td>
 
-                        <img src="@Url.Content(img)" width="300" height="250" />
+                        <img src="@Url.Content(img)" width="600" height="500" />
                     </td>
                 </tr>
             End If
